@@ -1,0 +1,18 @@
+/* Seção principal */
+main {
+    max-width: 40%;
+    margin: 0 auto;
+    border-radius: 18px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+}
+
+/* Ajuste para o canvas centralizado */
+canvas {
+    display: block;
+    margin: 0 auto;
+    background: rgba(30, 30, 30, 0.96);
+}
+
+#controle{
+    display: none;
+}
