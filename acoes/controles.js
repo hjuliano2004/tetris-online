@@ -1,24 +1,26 @@
-import { peca } from "../main.js";
+import { tamanho } from "../cenario/Cenario.js";
+import { peca, setPeca } from "../main.js";
+import { referencia } from "../models/ele.js";
 import {
-  colideDireita,
-  colideEsquerda,
+  colideLateral,
+  colideRotacao,
   paredeDireita,
   paredeEsquerda,
 } from "./colisoes.js";
-import { rotacao } from "./utilis.js";
+import { aleatorias, rotacao } from "./utilis.js";
 
 export let controle = {
   teclas: window.addEventListener("keydown", (e) => {
     switch (e.key) {
       case "ArrowRight":
-        if (!paredeDireita() && !colideDireita()) {
+        if (!paredeDireita() && !colideLateral(tamanho)) {
           peca.direita();
         }
 
         break;
 
       case "ArrowLeft":
-        if (!paredeEsquerda() && !colideEsquerda()) {
+        if (!paredeEsquerda() && !colideLateral(-tamanho)) {
           peca.esquerda();
         }
 
@@ -26,10 +28,13 @@ export let controle = {
 
       case "Spacebar":
       case " ":
+        colideRotacao();
         peca.setReferencia(rotacao(peca.getReferencia()));
-
-      default:
+        
         break;
+
+      case "p":
+        setPeca(aleatorias());
     }
   }),
 };

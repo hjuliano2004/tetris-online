@@ -1,5 +1,4 @@
 import { Peca } from "./peca.js";
-import { tamanho } from "../cenario/Cenario.js";
 
 export const stickPadrao = {
     referencia: [[0, 0, 0, 0],

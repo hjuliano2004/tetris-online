@@ -2,15 +2,16 @@ import { getEmpilhados, torre } from "../cenario/torre.js";
 import { Stick } from "../models/stick.js";
 import { ctx, tamanho } from "../cenario/Cenario.js";
 import { getPeca, setPeca } from "../main.js";
-import { rotacao, tangiveis } from "./utilis.js";
+import { aleatorias, rotacao, tangiveis } from "./utilis.js";
 
 export function chao(){
 
     let visiveis = tangiveis(getPeca().getReferencia());
 
-    for(let i=0;i<tangiveis.length;i++){
-        if(visiveis[i].y + 30 == ctx.canvas.height){
-            colisao();
+    for(let i=0;i<visiveis.length;i++){
+        if(visiveis[i].y + tamanho == ctx.canvas.height){
+         colisao(); 
+         return null;
         }
     }
     
@@ -42,7 +43,7 @@ export function teto(){
 
 function colisao(){
             torre.add(tangiveis(getPeca().getReferencia()));
-            setPeca(Stick());
+            setPeca(aleatorias());
 }
 
 
@@ -67,14 +68,14 @@ export function paredeEsquerda(){
 }
 //TODO  existem funções distintas para verificar colisoes com a parede ou colisão lateral com blocos
 
-export function colideDireita(){
+export function colideLateral(posicao = 0){
     let visiveis = tangiveis(getPeca().getReferencia());
     let empilhados = getEmpilhados();
 
     for(let i=0;i<visiveis.length;i++){
         for(let j=0;j<empilhados.length;j++){
-            const y = empilhados[j].y - visiveis[i].y;
-            if((visiveis[i].x + tamanho == empilhados[j].x) &&
+            const y = relativoY(empilhados[j], visiveis[i]);
+            if((visiveis[i].x + posicao == empilhados[j].x) &&
                ((y < tamanho) && (y > -tamanho)) ){
                 return true;
             }
@@ -84,35 +85,37 @@ export function colideDireita(){
     return false;
 }
 
-export function colideEsquerda(){
-    let visiveis = tangiveis(getPeca().getReferencia());
-    let empilhados = getEmpilhados();
 
-    for(let i=0;i<visiveis.length;i++){
-        for(let j=0;j<empilhados.length;j++){
-            const y = empilhados[j].y - visiveis[i].y;
-            if((visiveis[i].x - tamanho == empilhados[j].x) &&
-               ((y < tamanho) && (y > -tamanho)) ){
-                return true;
-            }
-        }
-    }
+export function colideRotacao(){
 
-    return false;
-}
-
-export function colideRotação(){
     const visiveis = tangiveis(rotacao(getPeca().getReferencia()));
-    const empilhados = getEmpilhados();
+    const empilhados = getEmpilhados(); 
 
     for(let i=0;i<visiveis.length;i++){
+
+        if(visiveis[i].x < 0 || visiveis[i].x > (ctx.canvas.width -tamanho)){
+            console.log("colide na parede durante rotação");
+        }
+
+
         for(let j=0;j<empilhados.length;j++){
-            if(visiveis[i].x == empilhados[j].x &&
-               visiveis[i].y == empilhados[j].y){
+
+            let y = relativoY(empilhados[j], visiveis[i]);
+
+            if(visiveis[i].x == empilhados[j].x && (y > -tamanho) && (y < tamanho)){
+
+                    console.log("colide na rotação");
                     return true;
-                };
+                };   
         }
     }
 
     return false; 
 }
+
+
+
+function relativoY(torre, peca){
+    return torre.y - peca.y;
+}
+

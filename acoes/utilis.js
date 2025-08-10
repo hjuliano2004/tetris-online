@@ -1,4 +1,8 @@
 import { getPeca } from "../main.js";
+import { Blocao } from "../models/blocao.js";
+import { Ele } from "../models/ele.js";
+import { Engrenagem } from "../models/engrenagem.js";
+import { Stick } from "../models/stick.js";
 
 
 export function rotacao(referencia) {
@@ -17,8 +21,6 @@ export function rotacao(referencia) {
     }
 
 
-
-    
 export function tangiveis(referencia) {
           let lista = [];
           let corpo = getPeca().getCorpo();
@@ -32,3 +34,12 @@ export function tangiveis(referencia) {
           }
           return lista;
         }
+
+export function aleatorias(){
+  const array = [Stick, Engrenagem, Blocao, Ele];
+
+  let escolha = Math.floor(Math.random() * array.length);
+
+
+  return array[escolha]();
+}

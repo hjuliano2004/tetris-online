@@ -1,20 +1,23 @@
-import { grade, tamanho} from  './cenario/Cenario.js';
+import { grade } from  './cenario/Cenario.js';
 import { ctx } from './cenario/Cenario.js';
-import { Stick, stickPadrao } from './models/stick.js';
+
 import { torre } from './cenario/torre.js';
 import { chao, colideTorre, teto } from './acoes/colisoes.js';
 import { controle } from './acoes/controles.js';//apesar do controle não ser invocado, só funciona se estiver importado
+import { aleatorias } from './acoes/utilis.js';
 
-export let peca = Stick();
+export let peca = aleatorias();
 
 export function getPeca(){
     return peca;
 }
 export function setPeca(Peca){
     peca = Peca;
-}
+} 
 
 let loop;
+
+console.log("canvas heigth",ctx.canvas.height);
 
  function simulação(){
     teto();
@@ -32,4 +35,4 @@ let loop;
 }
 
 
-//loop = setInterval(()=>{simulação()}, 90);
+loop = setInterval(()=>{simulação()}, 90);
