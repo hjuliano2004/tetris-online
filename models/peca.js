@@ -30,6 +30,13 @@ export function Peca() {
       return referencia;
     },
 
+    clone: function(){
+        return {
+    corpo: structuredClone(corpo),
+    referencia: structuredClone(referencia)
+  };
+    },
+
     render: function () {
       for (let i = 0; i < corpo.length; i++) {
         for (let j = 0; j < corpo.length; j++) {
