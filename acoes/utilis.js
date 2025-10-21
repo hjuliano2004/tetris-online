@@ -21,9 +21,8 @@ export function rotacao(referencia) {
     }
 
 
-export function tangiveis(referencia) {
+export function tangiveis(referencia, corpo) {
           let lista = [];
-          let corpo = getPeca().getCorpo();
     
           for (let i = 0; i < corpo.length; i++) {
             for (let j = 0; j < corpo.length; j++) {

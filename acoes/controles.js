@@ -1,13 +1,15 @@
 import { tamanho } from "../cenario/Cenario.js";
-import { peca, setPeca } from "../main.js";
+import { getPeca, peca, setPeca } from "../main.js";
 import { referencia } from "../models/ele.js";
 import {
   colideLateral,
   colideRotacao,
+  compensaRotacao,
   paredeDireita,
   paredeEsquerda,
 } from "./colisoes.js";
-import { aleatorias, rotacao } from "./utilis.js";
+import { aleatorias, rotacao, tangiveis} from "./utilis.js";
+import { getEmpilhados } from "../cenario/torre.js";
 
 export let controle = {
   teclas: window.addEventListener("keydown", (e) => {
@@ -28,9 +30,8 @@ export let controle = {
 
       case "Spacebar":
       case " ":
-        colideRotacao();
-        peca.setReferencia(rotacao(peca.getReferencia()));
-        
+        //colideRotacao(tangiveis(rotacao(getPeca().getReferencia()), getPeca().getCorpo()), getEmpilhados());
+        girar();
         break;
 
       case "p":
@@ -38,3 +39,16 @@ export let controle = {
     }
   }),
 };
+
+
+function girar(){
+
+  let visiveis = tangiveis(getPeca().getReferencia(), getPeca().getCorpo());
+
+if(colideRotacao(visiveis, getEmpilhados())){
+  compensaRotacao();
+}else{
+  peca.setReferencia(rotacao(peca.getReferencia()))
+}
+
+}
