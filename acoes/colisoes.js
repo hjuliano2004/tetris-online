@@ -22,10 +22,13 @@ export function colideTorre(){
 
     for(let i=0;i<array.length;i++){
         for(let j=0;j<empilhados.length;j++){
-            if(((array[i].y + tamanho) == empilhados[j].y) &&
-                 array[i].x == empilhados[j].x){
+            
+            for(let c=0;c<empilhados[j].length;c++){
+                if(((array[i].y + tamanho) == empilhados[j][c].y) &&
+                 array[i].x == empilhados[j][c].x){
                 colisao();
                 return null;
+            }
             }
         }
     }
@@ -34,8 +37,11 @@ export function colideTorre(){
 export function teto(){
     let empilhados = getEmpilhados();
     for(let i=0;i<empilhados.length;i++){
-        if(empilhados[i].y == 0){
+        
+        for(let j=0;j<empilhados[0].length;j++){
+            if(empilhados[i][j].y == 0){
             torre.limpa();
+        }
         }
     }
 } 
@@ -73,10 +79,12 @@ export function colideLateral(posicao = 0){
 
     for(let i=0;i<visiveis.length;i++){
         for(let j=0;j<empilhados.length;j++){
-            const y = relativoY(empilhados[j], visiveis[i]);
-            if((visiveis[i].x + posicao == empilhados[j].x) &&
-               ((y < tamanho) && (y > -tamanho)) ){
+            for(let c=0;c<empilhados[j].length;c++){
+                const y = relativoY(empilhados[j][c], visiveis[i]);
+                if((visiveis[i].x + posicao == empilhados[j][c].x) &&
+                ((y < tamanho) && (y > -tamanho)) ){
                 return true;
+            }
             }
         }
     }
